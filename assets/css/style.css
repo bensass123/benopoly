@@ -2,3 +2,12 @@
 	width: 500px;
 	color: blue;
 }
+
+.buttons {
+	position: relative;
+	left: 0;
+}
+
+.container {
+	text-align: center;
+}
