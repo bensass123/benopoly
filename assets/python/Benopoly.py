@@ -28,7 +28,7 @@ hasGOJcard = [False, False, False, False, False, False]
 rrsOwned = [0,0,0,0,0,0]
 utsOwned = [0,0,0,0,0,0]
 houses = [0]*40
-price = [200]*40
+price = [0,60,0,60,0,200,100,0,100,120,0,140,150,140,160,200,180,0,180,200,0,220,0,220,240,200,260,260,150,280,0,300,300,0,320,200,350,0,400]
 rent0 =[0,2,0,4,0,98, 6,0,6,8,0,10,99,10,12,98,14,0,14,16,0,18,0,18,20,98,22,22,99,24,0,26,26,0,28,98,0,35,0,50]
 rent1 = [0,10,0,20,0,99,30,0,30,40,0,50,98,50,60,99,70,0,70,80,0,90,0,90,100,99,110,110,98,120,0,130,130,0,150,99,0,175,0,200]
 rent2 = [0,30, 0,60,0,99,90,0,90,100,0,150,98,150,180,99,200,0,200,220,0, 250,0,250, 300,99,330,330,98,360,0,390,390,0,450,99,0,500,0,600]
@@ -84,7 +84,8 @@ def unmortgage():
       mortgage = input("Player:  %s  Which one of dem dere properties you wanna unmortgage, Cap'n?" % (activePlayer))
       ownedOutright[mortgage] = True
       interest = price[mortgage] * .10
-      p1Cash -= (price[mortgage]/2) + interest	
+      p1Cash -= (price[mortgage]/2) + interest
+      p1Cash = round(p1Cash)
    if activePlayer == 2:
       print 'These are your properties\' identifying numbers'
       print p1Props
@@ -93,7 +94,8 @@ def unmortgage():
       mortgage = input("Player:  %s  Which one of dem dere properties you wanna unmortgage, Cap'n?" % (activePlayer))
       ownedOutright[mortgage] = True
       interest = price[mortgage] * .10
-      p2Cash -= (price[mortgage]/2) + interest	
+      p2Cash -= (price[mortgage]/2) + interest
+      p2Cash = round(p2Cash)
    if activePlayer == 3:
       print 'These are your properties\' identifying numbers'
       print p3Props
@@ -102,7 +104,8 @@ def unmortgage():
       mortgage = input("Player:  %s  Which one of dem dere properties you wanna unmortgage, Cap'n?" % (activePlayer))
       ownedOutright[mortgage] = True
       interest = price[mortgage] * .10
-      p3Cash -= (price[mortgage]/2) + interest	
+      p3Cash -= (price[mortgage]/2) + interest
+      p3Cash = round(p3Cash)
    if activePlayer == 4:
       print 'These are your properties\' identifying numbers'
       print p4Props
@@ -112,6 +115,7 @@ def unmortgage():
       ownedOutright[mortgage] = True
       interest = price[mortgage] * .10
       p4Cash -= (price[mortgage]/2) + interest
+      p4Cash = round(p4Cash)
    afterOption()
 
 
@@ -446,95 +450,96 @@ def afterOption():
       
     #something is up with this loop, its not working right, i need to fix this
       
-    letter2 = raw_input("Player:  %s  R to Roll(If you hit doubles..), B to Build, M to Mortgage, U to Unmortgage, I to Implode your precious buildings, E to End Turn" % (activePlayer))
-    while not (letter2.upper() == "E" or letter2.upper() == "R"):
-      if letter2.upper() == "U":
-        unmortgage()
-      if letter2.upper() == "B":
-        mupdate(p1Props)
-        mupdate(p2Props)
-        mupdate(p3Props)
-        mupdate(p4Props)
-        monoList = hasMonopoly()
+    letter2 = raw_input("Player:  %s  R to Roll(If you hit doubles..), B to Build, M to Mortgage, U to Unmortgage, I to Implode your precious buildings, Any Other Key to End Turn" % (activePlayer))
+ 
+    if letter2.upper() == "U":
+      unmortgage()
+    if letter2.upper() == "B":
+      mupdate(p1Props)
+      mupdate(p2Props)
+      mupdate(p3Props)
+      mupdate(p4Props)
+      monoList = hasMonopoly()
 
-        if not monoList:
-          print "You have no monopolies to speak of, good sir."
-        else: 
-          print 'Here are your monopolies:'
-          print monoList
-          for i in monoList:
-            print propID[i]
-            
-          construction = input("Player:  %s  Where would you like to build, dear chap?" % (activePlayer))
-          constructIt(construction)	
+      if not monoList:
+        print "You have no monopolies to speak of, good sir."
+      else: 
+        print 'Here are your monopolies:'
+        print monoList
+        for i in monoList:
+          print propID[i]
           
-          #need to check to see if building evenly
-          houses[construction] += 1
+        construction = input("Player:  %s  Where would you like to build, dear chap?" % (activePlayer))
+        constructIt(construction)	
         
-      if letter2.upper() == "M":
-         if activePlayer == 1:
-            print 'These are your properties\' identifying numbers'
-            print p1Props
-            for i in p1Props:
+        #need to check to see if building evenly
+        houses[construction] += 1
+      
+      
+    if letter2.upper() == "M":
+       if activePlayer == 1:
+          print 'These are your properties\' identifying numbers'
+          print p1Props
+          for i in p1Props:
+            print propID[i]
+          mortgage = input("Player:  %s  Which one of dem dere properties you wanna mortgage, Bubba?" % (activePlayer))
+          ownedOutright[mortgage] = False
+          mortReturn = price[mortgage] / 2
+          p1Cash += mortReturn
+       if activePlayer == 2:
+          print 'These are your properties\' identifying numbers'
+          print p1Props
+          for i in p1Props:
+            print propID[i]
+          mortgage = input("Player:  %s  Which one of dem dere properties you wanna mortgage, Bubba?" % (activePlayer))
+          ownedOutright[mortgage] = False
+          mortReturn = price[mortgage] / 2
+          p1Cash += mortReturn
+       if activePlayer == 3:
+          print 'These are your properties\' identifying numbers'
+          print p3Props
+          for i in p3Props:
+            print propID[i]
+          mortgage = input("Player:  %s  Which one of dem dere properties you wanna mortgage, Bubba?" % (activePlayer))
+          ownedOutright[mortgage] = False
+          mortReturn = price[mortgage] / 2
+          p3Cash += mortReturn
+       if activePlayer == 4:
+          print 'These are your properties\' identifying numbers'
+          print p4Props
+          for i in p4Props:
+            print propID[i]
+          mortgage = input("Player:  %s  Which one of dem dere properties you wanna mortgage, Bubba?" % (activePlayer))
+          ownedOutright[mortgage] = False
+          mortReturn = price[mortgage] / 2
+          p4Cash += mortReturn
+       afterOption()
+       
+    if letter2.upper() == "I":
+       if activePlayer == 1:
+          for i in p1Props:
+            if houses[i] > 0:
+              print i
               print propID[i]
-            mortgage = input("Player:  %s  Which one of dem dere properties you wanna mortgage, Bubba?" % (activePlayer))
-            ownedOutright[mortgage] = False
-            mortReturn = price[mortgage] / 2
-            p1Cash += mortReturn
-         if activePlayer == 2:
-            print 'These are your properties\' identifying numbers'
-            print p1Props
-            for i in p1Props:
+              print 'has ', houses[i], ' buildings'
+          implosion = input("Player:  %s  Which one of dem properties\'s buildings you wanna implode, boss?" % (activePlayer))
+          if houses[implosion] > 0:
+            houses[implosion] -= 1
+            mbValue = housePrice[implosion]/2
+            p1Cash += mbValue
+          else: print 'Nothing there for me to implode.  And I was lookin forward to it too...'
+       if activePlayer == 2:
+          for i in p2Props:
+            if houses[i] > 0:
+              print i
               print propID[i]
-            mortgage = input("Player:  %s  Which one of dem dere properties you wanna mortgage, Bubba?" % (activePlayer))
-            ownedOutright[mortgage] = False
-            mortReturn = price[mortgage] / 2
-            p1Cash += mortReturn
-         if activePlayer == 3:
-            print 'These are your properties\' identifying numbers'
-            print p3Props
-            for i in p3Props:
-              print propID[i]
-            mortgage = input("Player:  %s  Which one of dem dere properties you wanna mortgage, Bubba?" % (activePlayer))
-            ownedOutright[mortgage] = False
-            mortReturn = price[mortgage] / 2
-            p3Cash += mortReturn
-         if activePlayer == 4:
-            print 'These are your properties\' identifying numbers'
-            print p4Props
-            for i in p4Props:
-              print propID[i]
-            mortgage = input("Player:  %s  Which one of dem dere properties you wanna mortgage, Bubba?" % (activePlayer))
-            ownedOutright[mortgage] = False
-            mortReturn = price[mortgage] / 2
-            p4Cash += mortReturn
-         afterOption()
-         
-      if letter2.upper() == "I":
-         if activePlayer == 1:
-            for i in p1Props:
-              if houses[i] > 0:
-                print i
-                print propID[i]
-                print 'has ', houses[i], ' buildings'
-            implosion = input("Player:  %s  Which one of dem properties\'s buildings you wanna implode, boss?" % (activePlayer))
-            if houses[implosion] > 0:
-              houses[implosion] -= 1
-              mbValue = housePrice[implosion]/2
-              p1Cash += mbValue
-            else: print 'Nothing there for me to implode.  And I was lookin forward to it too...'
-         if activePlayer == 2:
-            for i in p2Props:
-              if houses[i] > 0:
-                print i
-                print propID[i]
-                print 'has ', houses[i], ' buildings'
-            implosion = input("Player:  %s  Which one of dem properties\'s buildings you wanna implode, boss?" % (activePlayer))
-            if houses[implosion] > 0:
-              houses[implosion] -= 1
-              mbValue = housePrice[implosion]/2
-              p2Cash += mbValue
-            else: print 'Nothing there for me to implode.  And I was lookin forward to it too...'    
+              print 'has ', houses[i], ' buildings'
+          implosion = input("Player:  %s  Which one of dem properties\'s buildings you wanna implode, boss?" % (activePlayer))
+          if houses[implosion] > 0:
+            houses[implosion] -= 1
+            mbValue = housePrice[implosion]/2
+            p2Cash += mbValue
+          else: print 'Nothing there for me to implode.  And I was lookin forward to it too...'    
 
 	   
 def constructIt(site):
@@ -946,83 +951,85 @@ def chance():
           print '$200 for passing GO'
 
           
-        if isOwned[cPos]:
-          #paidPlayer  = owner of the property  
-          for x in range(len(p1Props)):
-             if pos == p1Props[x]: 
-                paidPlayer = 1
-          for x in range(len(p2Props)):
-             if pos == p2Props[x]: 
-                paidPlayer = 2
-          for x in range(len(p3Props)):
-             if pos == p3Props[x]: 
-                paidPlayer = 3
-          for x in range(len(p4Props)):
-             if pos == p4Props[x]: 
-                paidPlayer = 4
-          
-          
-          if activePlayer == 1:
-              if ownedOutright[pos]:
-                 if paidPlayer == 1:
-                     print 'You already own this one.'
-                 elif paidPlayer == 2:
-                     p1Cash -= rent
-                     p2Cash += rent
-                 elif paidPlayer == 3:
-                     p1Cash -= rent
-                     p3Cash += rent	
-                 elif paidPlayer == 4:
-                     p1Cash -= rent
-                     p4Cash += rent
-              else: print 'Mortgaged'
-                     
-          elif activePlayer == 2: 
-              if ownedOutright[pos]:
-                 if paidPlayer == 2:
-                     print 'You already own this one.'
-                 elif paidPlayer == 1:
-                     p2Cash -= rent
-                     p1Cash += rent
-                 elif paidPlayer == 3:
-                     p2Cash -= rent
-                     p3Cash += rent	
-                 elif paidPlayer == 4:
-                     p2Cash -= rent
-                     p4Cash += rent 
-              else: print 'Mortgaged'
-              
-          elif activePlayer == 3: 
-              if ownedOutright[pos]:
-                 if paidPlayer == 3:
-                     print 'You already own this one.'
-                 elif paidPlayer == 2:
-                     p3Cash -= rent
-                     p2Cash += rent
-                 elif paidPlayer == 1:
-                     p3Cash -= rent
-                     p1Cash += rent	
-                 elif paidPlayer == 4:
-                     p3Cash -= rent
-                     p4Cash += rent 
-              else: print 'Mortgaged'
-              
-          elif activePlayer == 4: 
-              if ownedOutright[pos]:
-                 if paidPlayer == 4:
-                     print 'You already own this one.'
-                 elif paidPlayer == 1:
-                     p4Cash -= rent
-                     p1Cash += rent
-                 elif paidPlayer == 3:
-                     p4Cash -= rent
-                     p3Cash += rent	
-                 elif paidPlayer == 2:
-                     p4Cash -= rent
-                     p2Cash += rent 
-              else: print 'Mortgaged'
-          if not paidPlayer == activePlayer:    
-              print 'Player ', activePlayer,' just payed Player ', paidPlayer, ' rent in the amount of: ', rent
+      if isOwned[cPos]:
+        #paidPlayer  = owner of the property  
+        for x in range(len(p1Props)):
+           if pos == p1Props[x]: 
+              paidPlayer = 1
+        for x in range(len(p2Props)):
+           if pos == p2Props[x]: 
+              paidPlayer = 2
+        for x in range(len(p3Props)):
+           if pos == p3Props[x]: 
+              paidPlayer = 3
+        for x in range(len(p4Props)):
+           if pos == p4Props[x]: 
+              paidPlayer = 4
+        
+        
+        if activePlayer == 1:
+            if ownedOutright[pos]:
+               if paidPlayer == 1:
+                   print 'You already own this one.'
+               elif paidPlayer == 2:
+                   p1Cash -= rent
+                   p2Cash += rent
+               elif paidPlayer == 3:
+                   p1Cash -= rent
+                   p3Cash += rent	
+               elif paidPlayer == 4:
+                   p1Cash -= rent
+                   p4Cash += rent
+            else: print 'Mortgaged'
+                   
+        elif activePlayer == 2: 
+            if ownedOutright[pos]:
+               if paidPlayer == 2:
+                   print 'You already own this one.'
+               elif paidPlayer == 1:
+                   p2Cash -= rent
+                   p1Cash += rent
+               elif paidPlayer == 3:
+                   p2Cash -= rent
+                   p3Cash += rent	
+               elif paidPlayer == 4:
+                   p2Cash -= rent
+                   p4Cash += rent 
+            else: print 'Mortgaged'
+            
+        elif activePlayer == 3: 
+            if ownedOutright[pos]:
+               if paidPlayer == 3:
+                   print 'You already own this one.'
+               elif paidPlayer == 2:
+                   p3Cash -= rent
+                   p2Cash += rent
+               elif paidPlayer == 1:
+                   p3Cash -= rent
+                   p1Cash += rent	
+               elif paidPlayer == 4:
+                   p3Cash -= rent
+                   p4Cash += rent 
+            else: print 'Mortgaged'
+            
+        elif activePlayer == 4: 
+            if ownedOutright[pos]:
+               if paidPlayer == 4:
+                   print 'You already own this one.'
+               elif paidPlayer == 1:
+                   p4Cash -= rent
+                   p1Cash += rent
+               elif paidPlayer == 3:
+                   p4Cash -= rent
+                   p3Cash += rent	
+               elif paidPlayer == 2:
+                   p4Cash -= rent
+                   p2Cash += rent 
+            else: print 'Mortgaged'
+        if not paidPlayer == activePlayer:    
+            print 'Player ', activePlayer,' just payed Player ', paidPlayer, ' rent in the amount of: ', rent
+      else:
+        option(cPos)
               
 
                 
@@ -1216,7 +1223,7 @@ def chance():
       if activePlayer == 4:
         p4Cash += 100
         print 'P4Cash: ', p4Cash   
-
+    afterOption()
 def incomeTax():
   global p1Cash
   global p2Cash
@@ -1551,6 +1558,10 @@ def buyIt(pos):
     
     letter1 = raw_input("Unowned. Buy it?  B to buy.")
     if letter1.upper() == "B":
+        if rent0[pos] == 98:
+            rrsOwned[activePlayer - 1] += 1
+        if rent0[pos] == 99:
+            utsOwned[activePlayer - 1] += 1
         if activePlayer == 1:
             p1Props.append(pos)
             isOwned[pos] = True
@@ -1591,8 +1602,17 @@ def movePos(roll):
       global p2Cash
       global p3Cash
       global p4Cash
-   
-      if activePlayer == 1:
+      if roll == 999:
+        if activePlayer == 1:
+           p1Pos = 999
+        if activePlayer == 2:
+           p2Pos = 999
+        if activePlayer == 3:
+           p3Pos = 999
+        if activePlayer == 4:
+           p4Pos = 999
+        afterOption()  
+      elif activePlayer == 1:
         if p1Pos + roll > 39:
 	   print 'Player %s you received $200 for passing go.' %activePlayer
            p1Cash += 200
@@ -1608,7 +1628,7 @@ def movePos(roll):
            print 'property'
         else:
            print 'non-property'
-      if activePlayer == 2:
+      elif activePlayer == 2:
 	if p2Pos + roll > 39:
 	    #200 for passing go
 	   p2Cash += 200
@@ -1623,7 +1643,7 @@ def movePos(roll):
            print 'property'
         else:
            print 'non-property'
-      if activePlayer == 3:
+      elif activePlayer == 3:
         if p3Pos + roll > 39:
 	  #200 for passing go
            p3Cash += 200
@@ -1638,7 +1658,7 @@ def movePos(roll):
            print 'property'
         else:
            print 'non-property'
-      if activePlayer == 4:
+      elif activePlayer == 4:
 	if p4Pos + roll > 39:
 	    #200 for passing go
 	   p4Cash += 200
@@ -1687,3 +1707,5 @@ def run():
    
 
 run()
+
+

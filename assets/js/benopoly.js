@@ -1,0 +1,4 @@
+
+var activePlayer = 1;
+
+
