@@ -82,7 +82,12 @@ function throwDice(){
 
   if (isDoubles(dice1, dice2)){
       $('.dice').append('Doubles!');
-      isDubs += 1
+      isDubs += 1;
+    }
+
+  if (isDubs < 3) {
+    
+  }
 
 //build option first
 
@@ -108,11 +113,33 @@ function throwDice(){
   //     next()  
 }
 
+function chest(){
+  console.log("chest");
+}
 
+function chance(){
+  console.log("chance");
+}
+
+function luxTax(){
+  console.log("lux tax");
+}
+
+function incomeTax(){
+  console.log("income tax")
+}
 
 //labels properties that are part of monopolies as such
 function mupdate(){
 
+}
+
+function jailAnnouncement(){
+  console.log("in jail");
+}
+
+function parkingAnnouncement(){
+  console.log("free parking");
 }
 
 function isDoubles(one, two){
@@ -154,59 +181,54 @@ Player.prototype.playerDetails = function() {
 
 Player.prototype.option = function() {
     //pay your taxes
-    if (this.pos === 4){
-      incomeTax();
+    switch(this.pos) {
+      case 4:
+        //pay your taxes
+        incomeTax();
+        break;
+      case 48:
+        luxTax();
+        break;
+      case 2:
+      case 17:
+      case 33:
+        //draw Community Chest card
+        chest();
+        break;
+      case 7:
+      case 22:
+      case 36:
+        //draw Chance Card
+        chance();
+        break;
+      case 30:
+        this.jailed = true;
+        this.pos = 999;
+        jailAnnouncement();
+        break;
+      case 20:
+        //Free parking awards $100
+        this.cash += 100;
+        parkingAnnouncement();
+        break;
     }
-    else if (this.pos === 48){
-      luxTax();
+    //checks if property owns and pays rent or prompts to buy
+    if (isProperty[this.pos]){
+      if (isOwned[this.pos]){
+        payRent(this.pos);
+      }
+      else {
+        buyIt(this.pos);
+      }
     }
+    this.afterOption();
+}
 
-    //COMMUNITY CHEST SPACES AT: 2,17,33
-    else if ((pos === 2) || (pos === 17) || (pos === 33)){
-      chest();
-    }
-    //CHANCE SPACES AT: 7,22,36
-    else if ((pos === 7 || pos === 22 || pos === 36){
-      chance();
-    }
-    
-    #Go to Jail space here
-    elif pos == 30:
-      print 'Player %s just landed in Jail.' % activePlayer
-      if activePlayer == 1:
-        p1Pos = 999
-        print p1Pos
-      if activePlayer == 2:
-        p2Pos = 999
-      if activePlayer == 3:
-        p3Pos = 999
-      if activePlayer == 4:
-        p4Pos = 999
-      afterOption()
+Player.prototype.afterOption = function() {
 
-    #Free Parking
-    elif pos == 20:
-      print 'Player %s just landed on Free Parking.' % activePlayer
-      if activePlayer == 1:
-        p1Cash += 50
-        print p1Cash
-      if activePlayer == 2:
-        p2Cash += 50      
-      if activePlayer == 3:
-        p3Cash += 50
-      if activePlayer == 4:
-        p4Cash += 50
-      afterOption()
-      
-    elif isProperty[pos]:
-        if isOwned[pos]:      
-            payRent(pos)
-        else:
-            buyIt(pos)
-    else:
-      afterOption()
-      
-    };
+};
+
+  
 
 // Player.prototype.playerDetails = function() {
 
